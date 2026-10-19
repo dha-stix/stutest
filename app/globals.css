@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import "../styles/animations.css";
+
+@theme {
+  --color-ink: #0d0f1a;
+  --color-ink-2: #1a1d2b;
+  --color-ink-line: #2a2e40;
+  --color-paper: #f5f6f8;
+  --color-line: #e4e6ec;
+  --color-line-strong: #d5d8e0;
+  --color-muted: #5b6070;
+  --color-faint: #8d92a6;
+  --color-soft: #c9ccd8;
+  --color-brand: #4f3cf0;
+  --color-brand-dark: #3a28c9;
+  --color-brand-deep: #2a1ba8;
+  --color-brand-soft: #eceafe;
+  --color-brand-tint: #f7f6ff;
+  --color-brand-line: #b9b0ff;
+  --color-lime: #d4f65a;
+  --color-lime-soft: #eef9c9;
+  --color-lime-ink: #3f4a0e;
+  --color-success: #0e8a5f;
+  --color-success-ink: #0b6a47;
+  --color-success-soft: #e3f5ec;
+  --color-danger: #c2362b;
+  --color-danger-ink: #a62a20;
+  --color-danger-soft: #fde8e6;
+  --color-warn-soft: #fff1e0;
+  --color-warn-ink: #6e3800;
+  --color-coral: #ff8a5b;
+
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-brand-line);
+    outline-offset: 2px;
+  }
+  button {
+    cursor: pointer;
+  }
+}

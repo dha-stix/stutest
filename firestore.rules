@@ -1,0 +1,37 @@
+rules_version = '2';
+
+// Every document belongs to one signed-in user and is only readable and
+// writable by that user. Deploy with: firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function ownsNew() { return isOwner(request.resource.data.uid); }
+    function ownsExisting() { return isOwner(resource.data.uid); }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      // AI provider and API key: owner only, never listed by anyone else.
+      match /private/{doc} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    match /packs/{packId} {
+      allow create: if ownsNew();
+      allow read, delete: if ownsExisting();
+      allow update: if ownsExisting() && ownsNew();
+
+      match /attempts/{attemptId} {
+        allow create: if ownsNew();
+        allow read, delete: if ownsExisting();
+      }
+
+      match /chats/{chatId} {
+        allow read, delete: if ownsExisting();
+        allow create, update: if ownsNew();
+      }
+    }
+  }
+}
