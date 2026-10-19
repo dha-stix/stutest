@@ -3,7 +3,8 @@
 import clsx from "clsx";
 import { Upload } from "lucide-react";
 import { useRef, useState } from "react";
-import { MAX_DOCUMENT_PAGES } from "@/lib/constants";
+import { MAX_DOCUMENT_PAGES, MAX_DOCUMENT_WORDS } from "@/lib/constants";
+import { formatTokens, wordsToTokens } from "@/lib/usage";
 import { DocumentError, parseDocument, type ParsedDocument } from "@/lib/documents";
 import { Notice } from "../ui/Notice";
 import { Spinner } from "../ui/Spinner";
@@ -55,7 +56,9 @@ export function DocumentDrop({ doc, onChange }: DocumentDropProps) {
       >
         {parsing ? <Spinner className="size-8 text-brand" /> : <Upload className="sv-bob text-brand" size={36} strokeWidth={1.8} />}
         <span className="font-bold">{parsing ? "Reading your document…" : "Drop a PDF or DOCX, or browse"}</span>
-        <span className="text-sm text-muted">Max {MAX_DOCUMENT_PAGES} pages are used · up to 10 MB</span>
+        <span className="text-sm text-muted">
+          Up to {MAX_DOCUMENT_PAGES} pages or {MAX_DOCUMENT_WORDS.toLocaleString()} words are used · files up to 10 MB
+        </span>
         <input
           ref={input}
           type="file"
@@ -78,7 +81,7 @@ export function DocumentDrop({ doc, onChange }: DocumentDropProps) {
                 <div className="truncate font-bold">{doc.fileName}</div>
                 <div className="text-[13px] text-muted">
                   {doc.totalPages} page{doc.totalPages > 1 ? "s" : ""}
-                  {doc.kind === "docx" && " (estimated)"}
+                  {doc.kind === "docx" && " (estimated)"} · {doc.words.toLocaleString()} words used
                 </div>
               </div>
             </div>
@@ -86,13 +89,19 @@ export function DocumentDrop({ doc, onChange }: DocumentDropProps) {
               Remove
             </button>
           </div>
-          {doc.totalPages > doc.pagesUsed && (
+          {doc.limitedBy && (
             <Notice tone="warn" className="mt-3.5">
-              This file has {doc.totalPages} pages. Only pages 1–{doc.pagesUsed} will be used; pages {doc.pagesUsed + 1}–{doc.totalPages} are cut.
+              {doc.limitedBy === "pages"
+                ? `This file has ${doc.totalPages} pages. Only pages 1–${doc.pagesUsed} will be used; the rest are cut.`
+                : `Stutest reads up to ${MAX_DOCUMENT_WORDS.toLocaleString()} words, so it will use pages 1–${doc.pagesUsed}${doc.pagesUsed < doc.totalPages ? ` (page ${doc.pagesUsed} partly)` : ""} of ${doc.totalPages}.`}
             </Notice>
           )}
+          <Notice tone="info" className="mt-3.5">
+            <strong>Token use:</strong> this document is about {formatTokens(wordsToTokens(doc.words))} tokens, and it is sent to your AI provider with
+            every generation request and every chat message. More pages means more tokens charged to your API key.
+          </Notice>
           <div className="mt-3.5 grid grid-cols-[repeat(auto-fill,minmax(44px,1fr))] gap-2" aria-label="Pages used">
-            {Array.from({ length: Math.min(doc.totalPages, 24) }, (_, i) => {
+            {Array.from({ length: Math.min(doc.totalPages, 30) }, (_, i) => {
               const kept = i < doc.pagesUsed;
               return (
                 <div

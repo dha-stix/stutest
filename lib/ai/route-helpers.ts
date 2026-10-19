@@ -3,8 +3,8 @@ import type { ApiError, Provider } from "../types";
 import { ProviderError } from "./providers";
 
 const PROVIDERS: Provider[] = ["claude", "openai", "grok"];
-/** Rough cap on document text accepted by the API (5 dense pages is well under this). */
-export const MAX_SOURCE_CHARS = 60_000;
+/** Cap on document text accepted by the API: 10,000 words plus page markers fits well under this. */
+export const MAX_SOURCE_CHARS = 90_000;
 
 export const fail = (code: ApiError["code"], message: string, status = 400) =>
   NextResponse.json<ApiError>({ ok: false, code, message }, { status });

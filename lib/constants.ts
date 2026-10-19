@@ -5,10 +5,14 @@ export const MCQ_SECTION_SIZE = 50;
 export const FLASHCARD_DECK_SIZE = 25;
 export const FILL_GAP_SECTION_SIZE = 20;
 
-/** Documents are cut to this many pages before generation. */
-export const MAX_DOCUMENT_PAGES = 5;
+/** Documents are cut to whichever limit comes first: this many pages… */
+export const MAX_DOCUMENT_PAGES = 20;
+/** …or this many words (about 20 average pages; slide decks fit more pages, dense text fewer). */
+export const MAX_DOCUMENT_WORDS = 10_000;
 /** DOCX files have no real pages, so we estimate one page per this many words. */
 export const WORDS_PER_PAGE = 500;
+/** Most multiple-choice questions a page of material can support before quality drops. */
+export const MCQ_PER_PAGE = 8;
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 export const MCQ_COUNTS = [25, 50, 100, 150, 200];

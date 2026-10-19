@@ -7,12 +7,13 @@ import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { ApiClientError } from "@/lib/api-client";
 import { useAuth } from "@/lib/auth-context";
-import { FILL_GAP_COUNTS, FLASHCARD_COUNTS, MCQ_COUNTS, MCQ_SECTION_SIZE, MODES, providerInfo } from "@/lib/constants";
+import { FILL_GAP_COUNTS, FLASHCARD_COUNTS, MCQ_COUNTS, MCQ_PER_PAGE, MCQ_SECTION_SIZE, MODES, providerInfo } from "@/lib/constants";
 import type { ParsedDocument } from "@/lib/documents";
 import { createPack } from "@/lib/firebase-actions";
 import { generatePack } from "@/lib/generate";
 import { chunk } from "@/lib/study";
 import type { StudyMode } from "@/lib/types";
+import { countWords, estimatePack, formatTokens } from "@/lib/usage";
 import { Sparkles } from "../svg/AnimatedIcons";
 import { Button } from "../ui/Button";
 import { Notice } from "../ui/Notice";
@@ -54,7 +55,20 @@ export function CreateForm() {
   const [error, setError] = useState<ReactNode>("");
 
   const toggleMode = (m: StudyMode) => setModes((cur) => (cur.includes(m) ? cur.filter((x) => x !== m) : [...cur, m]));
-  const sections = chunk(Array.from({ length: counts.mcq }), MCQ_SECTION_SIZE).map((s, i) => ({
+
+  // A document can only support so many good questions: about MCQ_PER_PAGE per page
+  // (or one per ~60 words, for sparse pages like slides), in steps of 5.
+  const usingDoc = source === "upload" && doc ? doc : null;
+  const mcqMax = usingDoc
+    ? Math.max(5, Math.floor(Math.min(usingDoc.pagesUsed * MCQ_PER_PAGE, usingDoc.words / 60) / 5) * 5)
+    : Infinity;
+  const mcqOptions = MCQ_COUNTS.filter((c) => c <= mcqMax);
+  if (Number.isFinite(mcqMax) && !mcqOptions.includes(mcqMax) && mcqMax < MCQ_COUNTS[MCQ_COUNTS.length - 1]) mcqOptions.push(mcqMax);
+  const mcqCount = Math.min(counts.mcq, mcqMax);
+  const effectiveCounts = { ...counts, mcq: mcqCount };
+  const estimate = estimatePack(usingDoc ? usingDoc.words : countWords(topic) + 20, modes, effectiveCounts);
+
+  const sections = chunk(Array.from({ length: mcqCount }), MCQ_SECTION_SIZE).map((s, i) => ({
     from: i * MCQ_SECTION_SIZE + 1,
     to: i * MCQ_SECTION_SIZE + s.length,
   }));
@@ -75,7 +89,7 @@ export function CreateForm() {
         {
           title,
           modes,
-          counts,
+          counts: effectiveCounts,
           source: isDoc
             ? { type: "document", fileName: doc.fileName, pagesUsed: doc.pagesUsed, totalPages: doc.totalPages }
             : { type: "topic", topic: topic.trim() },
@@ -188,7 +202,7 @@ export function CreateForm() {
 
           {modes.includes("mcq") && (
             <Panel title="How many multiple-choice questions?">
-              <Pills label="Question count" options={MCQ_COUNTS} value={counts.mcq} onChange={(mcq) => setCounts({ ...counts, mcq })} />
+              <Pills label="Question count" options={mcqOptions} value={mcqCount} onChange={(mcq) => setCounts({ ...counts, mcq })} />
               <div className="mt-4 flex flex-wrap gap-2">
                 {sections.map((s, i) => (
                   <div key={i} className="st-pop flex-[1_1_120px] rounded-xl bg-brand-soft p-3 text-sm font-semibold text-brand-dark">
@@ -196,8 +210,14 @@ export function CreateForm() {
                   </div>
                 ))}
               </div>
+              {usingDoc && (
+                <p className="mt-3 text-sm text-muted">
+                  Your document supports up to <strong className="text-ink">{mcqMax} questions</strong> (about {MCQ_PER_PAGE} per page). Asking for more would
+                  make questions repetitive.
+                </p>
+              )}
               <p className="mt-3 text-sm text-muted">
-                {counts.mcq} questions → {sections.length} section{sections.length > 1 ? "s" : ""} of up to {MCQ_SECTION_SIZE}. Each section&apos;s timer is set from how long
+                {mcqCount} questions → {sections.length} section{sections.length > 1 ? "s" : ""} of up to {MCQ_SECTION_SIZE}. Each section&apos;s timer is set from how long
                 its questions take to read.
               </p>
             </Panel>
@@ -230,13 +250,18 @@ export function CreateForm() {
           </div>
           <SummaryRow label="Source" value={source === "topic" ? "Topic" : doc ? `${doc.kind.toUpperCase()} · pages 1–${doc.pagesUsed}` : "No file yet"} />
           <SummaryRow label="Study modes" value={modes.length} />
-          <SummaryRow label="MCQ" value={modes.includes("mcq") ? `${counts.mcq} Q · ${sections.length} section${sections.length > 1 ? "s" : ""}` : "Off"} />
+          <SummaryRow label="MCQ" value={modes.includes("mcq") ? `${mcqCount} Q · ${sections.length} section${sections.length > 1 ? "s" : ""}` : "Off"} />
           <SummaryRow label="Model" value={settings ? providerInfo(settings.provider).name : "Not connected"} />
+          <SummaryRow label="AI requests" value={estimate.requests} />
+          <SummaryRow label="Estimated tokens" value={`~${formatTokens(estimate.total)}`} />
           {error && <Notice tone="error">{error}</Notice>}
           <Button variant="lime" size="lg" className="mt-2 w-full font-extrabold" disabled={!canGenerate} onClick={handleGenerate}>
             Generate pack <ArrowRight size={18} strokeWidth={2.4} />
           </Button>
-          <p className="text-[13px] leading-normal text-faint">Generation runs on your own key. Typical time: 20–90 seconds.</p>
+          <p className="text-[13px] leading-normal text-faint">
+            Tokens are charged to your own API key. Each request resends {usingDoc ? "your document" : "your topic"}, so more pages and more questions use more
+            tokens. This is an estimate; reasoning models may use more. Typical time: 20–90 seconds.
+          </p>
         </aside>
       </div>
 

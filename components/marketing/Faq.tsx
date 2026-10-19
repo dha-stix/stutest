@@ -18,7 +18,7 @@ const FAQS = [
   { q: "What happens if my API key does not work?", a: "We tell you straight away so you can check the key or switch to another provider." },
   {
     q: "How long can my document be?",
-    a: "Up to 5 pages of PDF or DOCX. Longer files are trimmed to the first 5 pages and we show you which pages were used.",
+    a: "Up to 20 pages (or 10,000 words) of PDF or DOCX. Longer files are trimmed and we show you exactly which pages were used. Longer documents use more tokens on your API key, because the document is sent with every request.",
   },
   { q: "Can I study offline?", a: "Yes. Every pack has a Download button that exports questions and answers as a PDF." },
 ];

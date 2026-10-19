@@ -30,12 +30,12 @@ const STEPS: { title: string; body: string; visual: ReactNode }[] = [
   },
   {
     title: "Topic or document",
-    body: "Type a topic, or upload a PDF/DOCX. We read the first 5 pages and build your packs.",
+    body: "Type a topic, or upload a PDF/DOCX. We read up to 20 pages and build your packs.",
     visual: (
       <div className="flex size-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-soft text-sm text-muted">
         <Upload className="sv-bob text-brand" size={32} strokeWidth={1.8} />
         <span className="font-semibold text-ink">lecture-notes.pdf</span>
-        <span>5 of 12 pages used</span>
+        <span>12 of 12 pages used</span>
       </div>
     ),
   },

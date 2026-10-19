@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { askDocument, type SourcePayload } from "@/lib/api-client";
 import { useAuth } from "@/lib/auth-context";
 import { providerInfo } from "@/lib/constants";
+import { countWords, formatTokens, wordsToTokens } from "@/lib/usage";
 import { getChat, saveChat } from "@/lib/firebase-actions";
 import type { ChatMessage, Pack } from "@/lib/types";
 import { StudyHeader } from "../app/StudyShell";
@@ -174,6 +175,11 @@ export function Chat({ pack }: { pack: Pack }) {
                 </button>
               ))}
             </div>
+            <p className="mb-2.5 text-xs text-faint">
+              {isDoc
+                ? `Each message sends your document (~${formatTokens(wordsToTokens(countWords(pack.documentText ?? "")))} tokens) plus the chat so far to your AI provider.`
+                : "Each message sends the chat so far to your AI provider."}
+            </p>
             <form
               className="flex gap-2.5"
               onSubmit={(e) => {

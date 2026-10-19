@@ -37,7 +37,7 @@ export function LoginAside() {
 
 const STEPS = [
   { title: "Add your AI key", sub: "Claude, ChatGPT or Grok — verified instantly", dark: true },
-  { title: "Enter a topic or upload", sub: "PDF or DOCX, first 5 pages" },
+  { title: "Enter a topic or upload", sub: "PDF or DOCX, up to 20 pages" },
   { title: "Get tested", sub: "MCQ, flashcards, fill-in-the-gap, key points, chat" },
 ];
 

@@ -47,7 +47,7 @@ All reads and writes go through [`lib/firebase-actions.ts`](lib/firebase-actions
 ## How generation works
 
 - **Keys**: the student pastes a key on `/settings/api-key`; `/api/verify-key` makes a cheap authenticated call (list models) and rejects bad keys immediately.
-- **Documents**: PDF and DOCX are parsed **in the browser** (`lib/documents.ts`). Only the first 5 pages are kept (DOCX pages are estimated at 500 words); the UI shows which pages were cut.
+- **Documents**: PDF and DOCX are parsed **in the browser** (`lib/documents.ts`). Up to 20 pages or 10,000 words are kept, whichever comes first (DOCX pages are estimated at 500 words); the UI shows which pages were cut. The multiple-choice count is capped at about 8 questions per page so packs don't become repetitive, and the create page shows the number of AI requests and an estimated token total, since every request resends the document.
 - **Packs**: `lib/generate.ts` calls `/api/generate` once per batch of at most 50 items. MCQ sections are generated in sequence, each told which questions already exist so sections don't repeat. A 150-question request becomes 3 sections of 50.
 - **Timing**: each section's timer comes from the reading length of its questions (`lib/study.ts → questionSeconds`).
 - **Models** (server-side, in `lib/ai/providers.ts`): Claude uses `claude-opus-5-5` with server-side refusal fallback enabled; ChatGPT uses `gpt-5`; Grok uses `grok-4` via xAI's OpenAI-compatible API. Override with `CLAUDE_MODEL`, `OPENAI_MODEL`, `GROK_MODEL`.
