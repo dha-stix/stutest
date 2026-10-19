@@ -77,7 +77,44 @@ export const removeUserSettings = (uid: string) => deleteDoc(doc(firestore(), se
 
 /* ---------- packs ---------- */
 
+/** "Cell Biology: Week 3!" → "cell-biology-week-3" (ASCII, at most 48 chars, cut between words). */
+export function slugify(title: string): string {
+  const slug = title
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const short = slug.length > 48 ? slug.slice(0, 49).replace(/-[^-]*$/, "") : slug;
+  return short || "pack";
+}
+
+const SUFFIX_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+/** Readable, URL-safe pack ID: the title slug plus 4 random letters/digits, e.g. "cell-biology-k3f9". */
+export function packIdFor(title: string): string {
+  const random = crypto.getRandomValues(new Uint32Array(4));
+  const suffix = Array.from(random, (n) => SUFFIX_CHARS[n % SUFFIX_CHARS.length]).join("");
+  return `${slugify(title)}-${suffix}`;
+}
+
+/** An ID is free if no pack exists there; another user's pack can't be read, which also means "taken". */
+async function isPackIdFree(id: string): Promise<boolean> {
+  try {
+    return !(await getDoc(doc(firestore(), "packs", id))).exists();
+  } catch {
+    return false;
+  }
+}
+
 export async function createPack(uid: string, pack: NewPack): Promise<string> {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const id = packIdFor(pack.title);
+    if (!(await isPackIdFree(id))) continue;
+    await setDoc(doc(firestore(), "packs", id), clean({ ...pack, uid, createdAt: Date.now() }));
+    return id;
+  }
+  // Practically unreachable (5 collisions in a row); fall back to an auto ID.
   const ref = await addDoc(collection(firestore(), "packs"), clean({ ...pack, uid, createdAt: Date.now() }));
   return ref.id;
 }

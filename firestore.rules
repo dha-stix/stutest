@@ -20,7 +20,9 @@ service cloud.firestore {
 
     match /packs/{packId} {
       allow create: if ownsNew();
-      allow read, delete: if ownsExisting();
+      // resource == null: lets the app check a new pack ID is free (reveals nothing).
+      allow read: if resource == null || ownsExisting();
+      allow delete: if ownsExisting();
       allow update: if ownsExisting() && ownsNew();
 
       match /attempts/{attemptId} {
