@@ -17,7 +17,7 @@ const CHIP: Record<StudyMode, string> = {
 };
 
 export function ModeChip({ mode }: { mode: StudyMode }) {
-  return <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${CHIP[mode]}`}>{modeInfo(mode).short}</span>;
+  return <span className={`rounded-full px-2.5 py-1 font-ui text-xs font-bold ${CHIP[mode]}`}>{modeInfo(mode).short}</span>;
 }
 
 function packMeta(pack: Pack): string {
@@ -42,7 +42,7 @@ export function PackGrid({ packs, title = "Your packs" }: { packs: Pack[]; title
   return (
     <section aria-labelledby="packs-heading">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 id="packs-heading" className="font-display text-[26px] font-bold">
+        <h2 id="packs-heading" className="font-display text-[21px] sm:text-[23px] font-bold">
           {title}
         </h2>
         {packs.length > 0 && (

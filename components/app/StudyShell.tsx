@@ -69,7 +69,7 @@ function PackLoader({ children }: { children: (pack: Pack) => ReactNode }) {
 export function MissingPack({ message = "This pack doesn't exist or you don't have access to it." }: { message?: string }) {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center gap-5 px-4 text-center">
-      <h1 className="font-display text-3xl font-extrabold">Pack not found</h1>
+      <h1 className="font-display text-3xl font-bold">Pack not found</h1>
       <p className="max-w-md text-muted">{message}</p>
       <ButtonLink href="/dashboard">Back to dashboard</ButtonLink>
     </div>

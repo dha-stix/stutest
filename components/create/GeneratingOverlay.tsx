@@ -35,7 +35,7 @@ export function GeneratingOverlay({ done, total, label }: { done: number; total:
             {pct}%
           </text>
         </svg>
-        <h2 className="mt-4 font-display text-2xl font-extrabold">Building your pack</h2>
+        <h2 className="mt-4 font-display text-2xl font-bold">Building your pack</h2>
         <p className="mt-2 text-muted" aria-live="polite">
           {label}
         </p>

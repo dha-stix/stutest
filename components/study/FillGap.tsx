@@ -69,8 +69,8 @@ export function FillGap({ pack }: { pack: Pack }) {
         {checked && (
           <div role="status" className="st-pop mb-5 flex flex-wrap items-center justify-between gap-5 rounded-3xl bg-ink px-7 py-6 text-paper">
             <div>
-              <div className="text-[13px] font-bold uppercase tracking-[0.08em] text-lime">Your score</div>
-              <div className="font-display text-[40px] font-extrabold">
+              <div className="text-[13px] font-bold font-ui uppercase tracking-[0.08em] text-lime">Your score</div>
+              <div className="font-display text-[32px] sm:text-[36px] font-bold">
                 {score} / {items.length}
               </div>
             </div>
@@ -105,7 +105,7 @@ export function FillGap({ pack }: { pack: Pack }) {
               >
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-brand-soft text-sm font-extrabold text-brand-dark">{i + 1}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[clamp(17px,2vw,20px)] leading-[2]">
+                  <p className="text-[clamp(16px,1.8vw,18px)] leading-[2]">
                     {item.before}{" "}
                     <input
                       type="text"

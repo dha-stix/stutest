@@ -22,7 +22,7 @@ export default function PrivacyPage() {
       <header className="bg-ink px-4 pb-14 pt-6 text-paper sm:px-[clamp(16px,4vw,64px)]">
         <div className="mx-auto max-w-[860px]">
           <Logo />
-          <h1 className="mt-12 font-display text-[clamp(36px,5vw,56px)] font-extrabold tracking-[-0.03em]">How Stutest handles your data</h1>
+          <h1 className="mt-12 font-display text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.03em]">How Stutest handles <em className="accent text-lime">your data</em></h1>
           <p className="mt-3 text-soft">Plain-language summary of what the app stores and where it goes.</p>
         </div>
       </header>

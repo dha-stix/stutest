@@ -19,16 +19,16 @@ export function LoginAside() {
           <path className="sv-twinkle" style={{ animationDelay: "1s" }} d={sparkle(60, 220, 3)} fill="var(--color-brand-line)" />
         </svg>
         <div className="st-float-a absolute left-[8%] top-2.5 flex h-[180px] w-[280px] max-w-[70%] flex-col justify-between rounded-3xl bg-brand p-6">
-          <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#e7e3ff]">Question</span>
+          <span className="text-xs font-bold font-ui uppercase tracking-[0.08em] text-[#e7e3ff]">Question</span>
           <span className="font-display text-2xl font-bold leading-tight">What is the law of supply?</span>
         </div>
         <div className="st-float-b absolute right-[8%] top-[90px] flex h-[170px] w-[260px] max-w-[65%] flex-col justify-between rounded-3xl bg-lime p-6 text-ink">
-          <span className="text-xs font-bold uppercase tracking-[0.08em]">Answer</span>
+          <span className="text-xs font-bold font-ui uppercase tracking-[0.08em]">Answer</span>
           <span className="font-semibold leading-snug">As price rises, the quantity supplied rises too.</span>
         </div>
       </div>
       <div>
-        <h2 className="mb-3 font-display text-[clamp(30px,3.4vw,44px)] font-bold leading-[1.05] tracking-[-0.03em]">Pick up where you left off.</h2>
+        <h2 className="mb-3 font-display text-[clamp(24px,2.8vw,34px)] font-bold leading-[1.05] tracking-[-0.03em]">Pick up where you <em className="accent text-lime">left off.</em></h2>
         <p className="max-w-[420px] leading-relaxed text-soft">Your packs, scores and chats are waiting.</p>
       </div>
     </div>
@@ -61,7 +61,7 @@ export function RegisterAside() {
         ))}
         <path className="sv-twinkle" d={sparkle(372, 14, 5)} fill="var(--color-brand)" />
       </svg>
-      <p className="text-sm font-bold uppercase tracking-[0.1em]">After you sign up</p>
+      <p className="text-sm font-bold font-ui uppercase tracking-[0.1em]">After you sign up</p>
       {STEPS.map((s, i) => (
         <div
           key={s.title}

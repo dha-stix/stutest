@@ -139,7 +139,7 @@ export function PackOverview() {
             )}
             <span>· Created {relativeDay(pack.createdAt).toLowerCase()}</span>
           </div>
-          <h1 className="mt-2.5 break-words font-display text-[clamp(32px,4vw,48px)] font-extrabold tracking-[-0.03em]">{pack.title}</h1>
+          <h1 className="mt-2.5 break-words font-display text-[clamp(24px,3.2vw,38px)] font-bold tracking-[-0.03em]">{pack.title}</h1>
         </div>
         <div className="flex flex-wrap gap-2.5">
           <DownloadButton pack={pack} />
@@ -172,18 +172,18 @@ export function PackOverview() {
       <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-4">
         {MODE_CARDS.filter((c) => pack[c.key]).map((c) => (
           <Link key={c.key} href={`/packs/${pack.id}/${c.path}`} className={clsx("st-lift flex min-h-[180px] flex-col justify-between rounded-3xl p-6", c.className)}>
-            <span className={clsx("text-[13px] font-bold uppercase tracking-[0.08em]", c.eyebrow)}>{c.label}</span>
+            <span className={clsx("font-ui text-[13px] font-bold uppercase tracking-[0.08em]", c.eyebrow)}>{c.label}</span>
             <div>
-              <div className="font-display text-[26px] font-bold">{c.title(pack)}</div>
+              <div className="font-display text-[21px] sm:text-[23px] font-bold">{c.title(pack)}</div>
               <div className="text-sm opacity-75">{c.sub(pack)}</div>
             </div>
           </Link>
         ))}
         {canChat && (
           <Link href={`/packs/${pack.id}/chat`} className="st-lift flex min-h-[180px] flex-col justify-between rounded-3xl bg-ink p-6 text-paper">
-            <span className="text-[13px] font-bold uppercase tracking-[0.08em] text-lime">Chat</span>
+            <span className="text-[13px] font-bold font-ui uppercase tracking-[0.08em] text-lime">Chat</span>
             <div>
-              <div className="font-display text-[26px] font-bold">{pack.source.type === "document" ? "Ask the document" : "Ask a tutor"}</div>
+              <div className="font-display text-[21px] sm:text-[23px] font-bold">{pack.source.type === "document" ? "Ask the document" : "Ask a tutor"}</div>
               <div className="text-sm text-soft">{pack.source.type === "document" ? "Answers cite page numbers" : "Questions about this topic"}</div>
             </div>
           </Link>

@@ -7,7 +7,7 @@ const PERKS = ["All six study modes", "Unlimited packs", "Offline downloads"];
 
 export function FreeBand() {
   return (
-    <section id="free" className={`relative overflow-hidden bg-ink py-24 text-paper ${sectionX}`}>
+    <section id="free" className={`relative overflow-hidden bg-ink py-16 md:py-24 text-paper ${sectionX}`}>
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" className="pointer-events-none absolute inset-0 size-full">
         <g className="sv-orbit" style={{ transformOrigin: "1050px 200px" }}>
           <circle cx="1050" cy="200" r="150" fill="none" stroke="var(--color-ink-line)" strokeWidth="2" strokeDasharray="4 12" />
@@ -19,7 +19,7 @@ export function FreeBand() {
         </g>
       </svg>
       <Reveal className="relative mx-auto max-w-[900px] text-center">
-        <SectionHeading eyebrow="100% free" title="Free for every student." tone="dark" center />
+        <SectionHeading eyebrow="100% free" title={<>Free for <em className="accent text-lime">every student.</em></>} tone="dark" center />
         <p className="mx-auto mt-5 max-w-[560px] text-lg leading-relaxed text-soft">No plans, no paywalls. Connect your own AI key and use every study mode.</p>
         <ul className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2.5">
           {PERKS.map((p) => (

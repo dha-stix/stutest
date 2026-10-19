@@ -43,15 +43,15 @@ const STEPS: { title: string; body: string; visual: ReactNode }[] = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className={`py-28 ${sectionX}`}>
+    <section id="how" className={`py-20 md:py-28 ${sectionX}`}>
       <div className="mx-auto max-w-[1240px]">
-        <SectionHeading eyebrow="How it works" title="From blank page to practice test in three steps." />
-        <div className="mt-14 grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
+        <SectionHeading eyebrow="How it works" title={<>From blank page to <em className="accent">practice test</em> in three steps.</>} />
+        <div className="mt-10 grid md:mt-14 grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.1}>
               <div className="st-lift h-full rounded-3xl border border-line bg-white p-7">
                 <div className="font-mono font-bold text-brand">0{i + 1}</div>
-                <h3 className="mb-2 mt-3 font-display text-[26px] font-bold">{step.title}</h3>
+                <h3 className="mb-2 mt-3 font-display text-[21px] sm:text-[23px] font-bold">{step.title}</h3>
                 <p className="leading-relaxed text-muted">{step.body}</p>
                 <div className="mt-6 h-[180px] overflow-hidden rounded-2xl">{step.visual}</div>
               </div>

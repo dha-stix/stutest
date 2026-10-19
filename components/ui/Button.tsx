@@ -24,7 +24,7 @@ const sizes: Record<Size, string> = {
 
 export const buttonClass = (variant: Variant = "ink", size: Size = "md", className?: string) =>
   clsx(
-    "inline-flex items-center justify-center gap-2.5 font-bold transition duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2.5 font-ui font-bold transition duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:opacity-50",
     variants[variant],
     sizes[size],
     className,

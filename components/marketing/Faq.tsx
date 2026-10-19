@@ -27,9 +27,9 @@ export function Faq() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" className={`pt-28 ${sectionX}`}>
+    <section id="faq" className={`pt-20 md:pt-28 ${sectionX}`}>
       <div className="mx-auto max-w-[860px]">
-        <h2 className="mb-8 font-display text-[clamp(34px,4.4vw,52px)] font-extrabold tracking-[-0.03em]">Questions</h2>
+        <h2 className="mb-8 font-display text-[clamp(27px,3.4vw,40px)] font-bold tracking-[-0.03em]">Questions, <em className="accent">answered.</em></h2>
         <div className="flex flex-col gap-3">
           {FAQS.map((f, i) => {
             const isOpen = open === i;

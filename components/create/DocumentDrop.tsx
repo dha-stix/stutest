@@ -74,7 +74,7 @@ export function DocumentDrop({ doc, onChange }: DocumentDropProps) {
         <div className="st-pop rounded-[18px] border border-line p-[18px]">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-[11px] font-extrabold uppercase text-danger-ink">
+              <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-lg bg-danger-soft text-[11px] font-extrabold font-ui uppercase text-danger-ink">
                 {doc.kind}
               </span>
               <div className="min-w-0">

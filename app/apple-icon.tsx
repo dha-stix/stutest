@@ -21,8 +21,8 @@ export default async function AppleIcon() {
             alignItems: "center",
             justifyContent: "center",
             fontSize: 96,
-            fontWeight: 800,
-            fontFamily: "Bricolage Grotesque",
+            fontWeight: 700,
+            fontFamily: "Sora",
           }}
         >
           S

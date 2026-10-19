@@ -77,7 +77,7 @@ export function ApiKeyForm() {
       )}
       <div className="mb-2 mt-5 flex items-center gap-4">
         <LockIcon />
-        <h1 className="font-display text-[clamp(30px,3.6vw,44px)] font-extrabold tracking-[-0.03em]">Connect your AI</h1>
+        <h1 className="font-display text-[clamp(24px,2.8vw,34px)] font-bold tracking-[-0.03em]">Connect your AI</h1>
       </div>
       <p className="max-w-[560px] leading-relaxed text-muted">Stutest uses your own key to write your tests. It&apos;s only used for your requests.</p>
 

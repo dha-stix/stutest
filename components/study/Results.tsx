@@ -49,7 +49,7 @@ function ScoreRing({ score, total }: { score: number; total: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-[46px] font-extrabold leading-none">{percent(score, total)}%</span>
+        <span className="font-ui text-[38px] font-bold leading-none tracking-tight">{percent(score, total)}%</span>
         <span className="mt-1 text-sm text-soft">
           {score} / {total}
         </span>
@@ -95,8 +95,8 @@ export function Results({ pack }: { pack: Pack }) {
           <div className="mt-7 flex flex-wrap items-center gap-10">
             <ScoreRing score={attempt.score} total={attempt.total} />
             <div className="min-w-0 flex-[1_1_320px]">
-              <p className="text-sm font-bold uppercase tracking-[0.08em] text-lime">Section {sectionIndex + 1} complete</p>
-              <h1 className="mb-5 mt-2.5 font-display text-[clamp(32px,4vw,50px)] font-extrabold leading-[1.02] tracking-[-0.03em]">{verdict(p)}</h1>
+              <p className="text-sm font-bold font-ui uppercase tracking-[0.08em] text-lime">Section {sectionIndex + 1} complete</p>
+              <h1 className="mb-5 mt-2.5 font-display text-[clamp(24px,3.2vw,38px)] font-bold leading-[1.02] tracking-[-0.03em]">{verdict(p)}</h1>
               <div className="flex flex-wrap gap-2.5">
                 {[
                   { label: "Correct", value: attempt.score, tone: "text-[#7ee2b4]" },
@@ -132,7 +132,7 @@ export function Results({ pack }: { pack: Pack }) {
 
       <main className="mx-auto max-w-[1100px] px-4 pb-14 pt-8 sm:px-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-[26px] font-bold">Answer review</h2>
+          <h2 className="font-display text-[21px] sm:text-[23px] font-bold">Answer review</h2>
           <div className="flex flex-wrap items-center gap-3">
             <Pills look="segmented" label="Filter answers" options={FILTERS} value={filter} onChange={setFilter} />
             <DownloadButton pack={pack} mode="mcq" label="Download" size="sm" />

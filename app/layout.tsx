@@ -1,11 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Figtree, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans, Sora, Space_Grotesk } from "next/font/google";
 import { AuthProvider } from "@/lib/auth-context";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const figtree = Figtree({ variable: "--font-figtree", subsets: ["latin"] });
-const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"], weight: ["500", "700", "800"] });
+// Type system: Sora for headlines, Plus Jakarta Sans for reading, Space Grotesk for interface
+// text (labels, buttons, pills, nav, big numbers), Instrument Serif italic for accent words
+// inside headlines, and JetBrains Mono for timers.
+const sora = Sora({ variable: "--font-sora", subsets: ["latin"], weight: ["600", "700", "800"] });
+const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
+const instrument = Instrument_Serif({ variable: "--font-instrument", subsets: ["latin"], weight: "400", style: ["italic", "normal"] });
+const space = Space_Grotesk({ variable: "--font-space", subsets: ["latin"], weight: ["500", "600", "700"] });
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["500", "700"] });
 
 export const metadata: Metadata = {
@@ -30,7 +35,7 @@ export const viewport: Viewport = { themeColor: "#0d0f1a" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${figtree.variable} ${bricolage.variable} ${jetbrains.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${sora.variable} ${jakarta.variable} ${instrument.variable} ${space.variable} ${jetbrains.variable}`}>
       <body className="min-h-dvh">
         <AuthProvider>{children}</AuthProvider>
       </body>

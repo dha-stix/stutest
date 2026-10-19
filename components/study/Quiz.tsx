@@ -194,7 +194,7 @@ function QuizRunner({ pack, sectionIndex, missedOnly, setup }: { pack: Pack; sec
                 <Flag size={14} /> {state.flags[state.index] ? "Flagged" : "Flag"}
               </button>
             </div>
-            <h1 className="mb-7 mt-4 font-display text-[clamp(22px,2.6vw,30px)] font-bold leading-tight tracking-[-0.015em]">{q.question}</h1>
+            <h1 className="mb-7 mt-4 font-display text-[clamp(18px,2.2vw,25px)] font-bold leading-tight tracking-[-0.015em]">{q.question}</h1>
             <div role="radiogroup" aria-label="Answer options" className="flex flex-col gap-3">
               {q.options.map((option, k) => {
                 const on = state.answers[state.index] === k;
@@ -281,7 +281,7 @@ function QuizRunner({ pack, sectionIndex, missedOnly, setup }: { pack: Pack; sec
       {confirming && (
         <div role="dialog" aria-modal="true" aria-labelledby="confirm-title" className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 p-4">
           <div className="st-pop w-full max-w-sm rounded-3xl bg-white p-7">
-            <h2 id="confirm-title" className="font-display text-2xl font-extrabold">
+            <h2 id="confirm-title" className="font-display text-2xl font-bold">
               Submit section?
             </h2>
             <p className="mt-2 text-muted">

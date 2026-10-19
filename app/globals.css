@@ -30,8 +30,10 @@
   --color-warn-ink: #6e3800;
   --color-coral: #ff8a5b;
 
-  --font-sans: var(--font-figtree), system-ui, sans-serif;
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+  --font-ui: var(--font-space), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
@@ -48,5 +50,24 @@
   }
   button {
     cursor: pointer;
+  }
+}
+
+/* Accent words inside headlines: <em class="accent">the test.</em> */
+@utility accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  /* Instrument Serif runs small next to Sora; nudge it up to match cap height. */
+  font-size: 1.08em;
+}
+
+@layer base {
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
 }

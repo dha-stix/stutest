@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   // All app data comes from Firebase on the client, so pages render client-side;
   // Cache Components would add Suspense requirements without any benefit here.
   cacheComponents: false,
+  // Dev only: lets a phone on the same Wi-Fi load the dev server by IP (e.g. http://192.168.0.116:3000).
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   async headers() {
     return [
       {

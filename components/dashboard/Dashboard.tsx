@@ -24,7 +24,7 @@ function StatCard({ label, value, accent }: { label: string; value: string; acce
   return (
     <div className="st-in rounded-[20px] border border-line bg-white p-5">
       <div className="text-sm text-muted">{label}</div>
-      <div className={`mt-1.5 font-display text-4xl font-extrabold ${accent ?? ""}`}>{value}</div>
+      <div className={`mt-1.5 font-ui text-[30px] font-bold tracking-tight sm:text-[34px] ${accent ?? ""}`}>{value}</div>
     </div>
   );
 }
@@ -49,8 +49,8 @@ function ContinueCard({ packs, attempts }: { packs: Pack[]; attempts: Attempt[] 
   if (!item) {
     return (
       <Link href="/create" className="st-lift flex flex-[2_1_420px] flex-col justify-center gap-2 rounded-3xl bg-ink p-7 text-paper">
-        <span className="text-[13px] font-bold uppercase tracking-[0.08em] text-lime">Start something new</span>
-        <span className="font-display text-[28px] font-bold leading-tight">Turn a topic or your notes into a test</span>
+        <span className="text-[13px] font-bold font-ui uppercase tracking-[0.08em] text-lime">Start something new</span>
+        <span className="font-display text-[22px] sm:text-[24px] font-bold leading-tight">Turn a topic or your notes into a test</span>
         <span className="text-soft">Takes under a minute to generate.</span>
       </Link>
     );
@@ -62,8 +62,8 @@ function ContinueCard({ packs, attempts }: { packs: Pack[]; attempts: Attempt[] 
       className="st-lift flex min-w-0 flex-[2_1_420px] flex-wrap items-center justify-between gap-6 rounded-3xl bg-ink p-7 text-paper"
     >
       <div className="min-w-0">
-        <div className="text-[13px] font-bold uppercase tracking-[0.08em] text-lime">{answered ? "Continue" : "Up next"}</div>
-        <div className="mt-2 font-display text-[28px] font-bold leading-tight">
+        <div className="text-[13px] font-bold font-ui uppercase tracking-[0.08em] text-lime">{answered ? "Continue" : "Up next"}</div>
+        <div className="mt-2 font-display text-[22px] sm:text-[24px] font-bold leading-tight">
           {pack.title} · Section {next + 1}
           {sections > 1 && <span className="text-soft"> of {sections}</span>}
         </div>
@@ -92,8 +92,8 @@ export function Dashboard() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-muted">{today}</p>
-          <h1 className="mt-1.5 font-display text-[clamp(30px,3.4vw,42px)] font-extrabold tracking-[-0.03em]">
-            {greeting()}, {user?.name.split(" ")[0]}
+          <h1 className="mt-1.5 font-display text-[clamp(24px,2.8vw,34px)] font-bold tracking-[-0.03em]">
+            {greeting()}, <em className="accent">{user?.name.split(" ")[0]}</em>
           </h1>
         </div>
         <ButtonLink href="/create">
@@ -118,7 +118,7 @@ export function Dashboard() {
         <div className="st-in relative overflow-hidden rounded-[20px] bg-lime p-5">
           <FlameIcon className="absolute right-4 top-4" />
           <div className="text-sm font-semibold">Study streak</div>
-          <div className="mt-1.5 font-display text-4xl font-extrabold">
+          <div className="mt-1.5 font-ui text-[30px] font-bold tracking-tight sm:text-[34px]">
             {stats.streakDays} day{stats.streakDays === 1 ? "" : "s"}
           </div>
         </div>

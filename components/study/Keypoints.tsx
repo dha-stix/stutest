@@ -43,12 +43,12 @@ export function Keypoints({ pack }: { pack: Pack }) {
         </nav>
 
         <main className="min-w-0 flex-[999_1_520px]">
-          <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-brand">
+          <p className="text-[13px] font-bold font-ui uppercase tracking-[0.1em] text-brand">
             Topic {active + 1} of {topics.length}
           </p>
           <div className="mb-6 mt-1.5 flex items-center gap-3.5">
             <BulbIcon />
-            <h1 className="font-display text-[clamp(30px,3.6vw,44px)] font-extrabold tracking-[-0.03em]">{topic.title}</h1>
+            <h1 className="font-display text-[clamp(24px,2.8vw,34px)] font-bold tracking-[-0.03em]">{topic.title}</h1>
           </div>
           <div key={active} className="flex flex-col gap-3.5">
             {topic.points.map((p, i) => (

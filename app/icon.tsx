@@ -39,8 +39,8 @@ export default async function Icon({ id }: { id: Promise<string | number> }) {
             alignItems: "center",
             justifyContent: "center",
             fontSize: mark * 0.7,
-            fontWeight: 800,
-            fontFamily: "Bricolage Grotesque",
+            fontWeight: 700,
+            fontFamily: "Sora",
           }}
         >
           S

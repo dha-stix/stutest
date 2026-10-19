@@ -9,7 +9,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-ink px-4 text-center text-paper">
       <Logo />
-      <h1 className="font-display text-[clamp(32px,5vw,48px)] font-extrabold">Something went wrong</h1>
+      <h1 className="font-display text-[clamp(26px,4vw,38px)] font-bold">Something went <em className="accent text-lime">wrong</em></h1>
       <p className="max-w-md text-soft">This page hit an unexpected error. Your packs and scores are safe — try again, or head back to your dashboard.</p>
       <div className="flex flex-wrap justify-center gap-3">
         <Button variant="lime" onClick={reset}>

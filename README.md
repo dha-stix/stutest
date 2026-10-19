@@ -58,7 +58,7 @@ Students' keys are stored in their own Firestore document (owner-only rules) and
 
 - Every page has its own title and description, plus a 1200×630 share image (`app/opengraph-image.tsx`, reused for X/Twitter). That format works on Facebook, LinkedIn, WhatsApp, X, Slack, Discord and iMessage.
 - Browser icons: `app/favicon.ico` (16/32/48), `app/icon.tsx` (32, 192, 512 and a maskable 512 for Android), `app/apple-icon.tsx` (iOS home screen). The web manifest is `app/manifest.ts`.
-- The share image and icons use Bricolage Grotesque (SIL Open Font License), bundled in `assets/fonts`.
+- Type: Sora (headlines), Plus Jakarta Sans (body), Space Grotesk (labels, buttons, numbers), Instrument Serif italic (accent words) and JetBrains Mono (timers), loaded with `next/font`. The share image and icons use copies bundled in `assets/fonts` (all SIL Open Font License).
 - **Set `NEXT_PUBLIC_SITE_URL`** to your real domain when you deploy. Social platforms can't reach `localhost`, so previews only work from a public URL. Check them with each platform's debugger (Facebook Sharing Debugger, LinkedIn Post Inspector).
 - Signed-in pages (dashboard, packs, create, settings) are marked `noindex`. They stay crawlable in `robots.txt` so a shared link still gets a preview.
 

@@ -34,7 +34,7 @@ const iconLink = "flex size-11 items-center justify-center rounded-xl border bor
 
 export function Footer() {
   return (
-    <footer className={`mt-28 bg-ink pb-8 pt-20 text-soft ${sectionX}`}>
+    <footer className={`mt-20 md:mt-28 bg-ink pb-8 pt-20 text-soft ${sectionX}`}>
       <div className="mx-auto max-w-[1240px]">
         <div className="flex flex-wrap gap-x-10 gap-y-12">
           <div className="min-w-0 flex-[2_1_300px]">
@@ -51,7 +51,7 @@ export function Footer() {
           </div>
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title} className="min-w-0 flex-[1_1_160px]">
-              <h3 className="mb-3.5 text-[13px] font-bold uppercase tracking-[0.1em] text-paper">{col.title}</h3>
+              <h3 className="mb-3.5 text-[13px] font-bold font-ui uppercase tracking-[0.1em] text-paper">{col.title}</h3>
               <ul className="flex flex-col gap-1">
                 {col.links.map((l) => (
                   <li key={l.label}>

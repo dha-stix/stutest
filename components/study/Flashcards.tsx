@@ -129,16 +129,16 @@ export function Flashcards({ pack }: { pack: Pack }) {
           >
             <div className={clsx("flip-card", flipped && "is-flipped")}>
               <div className="flip-face flex flex-col justify-between rounded-[32px] bg-ink p-[clamp(24px,4vw,44px)] text-paper shadow-[0_40px_80px_-40px_rgba(13,15,26,.6)]">
-                <span className="text-[13px] font-bold uppercase tracking-[0.1em] text-lime">Question</span>
-                <span className="font-display text-[clamp(24px,3.4vw,38px)] font-bold leading-[1.15] tracking-[-0.02em]">{card.front}</span>
+                <span className="text-[13px] font-bold font-ui uppercase tracking-[0.1em] text-lime">Question</span>
+                <span className="font-display text-[clamp(20px,2.8vw,30px)] font-bold leading-[1.15] tracking-[-0.02em]">{card.front}</span>
                 <span className="flex items-center gap-2.5 text-sm text-faint">
                   <TapRipple />
                   Tap card or press Space to flip · swipe to move
                 </span>
               </div>
               <div className="flip-face flip-back flex flex-col justify-between overflow-y-auto rounded-[32px] bg-lime p-[clamp(24px,4vw,44px)] text-ink shadow-[0_40px_80px_-40px_rgba(13,15,26,.6)]">
-                <span className="text-[13px] font-bold uppercase tracking-[0.1em]">Answer</span>
-                <span className="text-[clamp(18px,2.4vw,25px)] font-semibold leading-normal">{card.back}</span>
+                <span className="text-[13px] font-bold font-ui uppercase tracking-[0.1em]">Answer</span>
+                <span className="text-[clamp(16px,2vw,21px)] font-semibold leading-normal">{card.back}</span>
                 <span className="text-sm text-lime-ink">Tap to see the question again</span>
               </div>
             </div>

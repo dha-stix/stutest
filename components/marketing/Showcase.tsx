@@ -9,7 +9,7 @@ const POINTS = ["Answers revealed after you submit", "Progress saved across sect
 
 export function Showcase() {
   return (
-    <section className={`pb-28 ${sectionX}`}>
+    <section className={`pb-20 md:pb-28 ${sectionX}`}>
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-12">
         <Reveal className="grid min-w-0 flex-[1_1_400px] grid-cols-2 gap-4">
           <div className="relative row-span-2 min-h-[380px] overflow-hidden rounded-3xl bg-brand">
@@ -19,12 +19,12 @@ export function Showcase() {
             <Image src={phoneFlashcards} alt="Phone showing a flashcard flipping" fill className="object-cover" unoptimized />
           </div>
           <div className="flex min-h-[182px] flex-col justify-end rounded-3xl bg-ink p-5 text-paper">
-            <span className="font-display text-[40px] font-extrabold text-lime">86%</span>
+            <span className="font-display text-[32px] sm:text-[36px] font-bold text-lime">86%</span>
             <span className="text-sm text-soft">Your score · Section 1</span>
           </div>
         </Reveal>
         <Reveal delay={0.1} className="min-w-0 flex-[1_1_400px]">
-          <SectionHeading eyebrow="Results that teach" title="See every answer — and why." />
+          <SectionHeading eyebrow="Results that teach" title={<>See every answer — <em className="accent">and why.</em></>} />
           <p className="mt-5 text-lg leading-relaxed text-muted">
             At the end of each test you get your score, the right answer for every question, and a short explanation. Retake only the questions you missed.
           </p>

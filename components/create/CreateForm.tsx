@@ -119,7 +119,7 @@ export function CreateForm() {
 
   return (
     <>
-      <h1 className="mb-2 font-display text-[clamp(30px,3.6vw,44px)] font-extrabold tracking-[-0.03em]">Create a test</h1>
+      <h1 className="mb-2 font-display text-[clamp(24px,2.8vw,34px)] font-bold tracking-[-0.03em]">Create a test</h1>
       <p className="mb-7 text-muted">Start from a topic or your own notes.</p>
 
       {!settings && (

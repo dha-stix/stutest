@@ -30,7 +30,7 @@ export function Pills<T extends string | number>({ options, value, onChange, lab
             aria-checked={active}
             onClick={() => onChange(option)}
             className={clsx(
-              "min-h-11 font-semibold transition",
+              "min-h-11 font-ui font-semibold transition",
               look === "segmented"
                 ? ["rounded-[10px] px-4 text-sm", active ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"]
                 : ["rounded-full border px-4 text-sm", active ? "border-ink bg-ink text-paper" : "border-line-strong bg-white text-ink hover:border-ink"],

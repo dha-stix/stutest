@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { ogFonts } from "@/lib/og-fonts";
-import { BRAND, SITE_TAGLINE } from "@/lib/site";
+import { BRAND } from "@/lib/site";
 
 // Shared link-preview image (Open Graph); twitter-image.tsx re-uses it.
 export const alt = "Stutest — Study smarter. Ace the test.";
@@ -12,7 +12,7 @@ const MODES = ["Timed MCQ", "Flashcards", "Fill in the gap", "Key points", "Chat
 export default async function OpenGraphImage() {
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", background: BRAND.ink, color: BRAND.paper, padding: 72, position: "relative", fontFamily: "Bricolage Grotesque" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", background: BRAND.ink, color: BRAND.paper, padding: 72, position: "relative", fontFamily: "Plus Jakarta Sans" }}>
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 12, background: BRAND.brand, display: "flex" }} />
         <div
           style={{
@@ -38,18 +38,20 @@ export default async function OpenGraphImage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                fontFamily: "Sora",
                 fontSize: 44,
-                fontWeight: 800,
+                fontWeight: 700,
               }}
             >
               S
             </div>
-            <div style={{ fontSize: 44, fontWeight: 800, letterSpacing: -1 }}>Stutest</div>
+            <div style={{ fontFamily: "Sora", fontSize: 44, fontWeight: 700, letterSpacing: -1 }}>Stutest</div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-            <div style={{ display: "flex", fontSize: 84, fontWeight: 800, letterSpacing: -3, lineHeight: 1 }}>
-              {SITE_TAGLINE.split(". ")[0]}.&nbsp;<span style={{ color: BRAND.lime }}>{SITE_TAGLINE.split(". ")[1]}</span>
+            <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Sora", fontSize: 78, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1 }}>
+              Study smarter.&nbsp;<span style={{ color: BRAND.lime }}>Ace&nbsp;</span>
+              <span style={{ color: BRAND.lime, fontFamily: "Instrument Serif", fontStyle: "italic", fontWeight: 400, fontSize: 88, letterSpacing: -1 }}>the test.</span>
             </div>
             <div style={{ fontSize: 34, fontWeight: 500, color: BRAND.soft, maxWidth: 900 }}>Turn any topic or document into tests, flashcards and more. Free with your own AI key.</div>
           </div>
@@ -62,6 +64,7 @@ export default async function OpenGraphImage() {
                   display: "flex",
                   padding: "12px 22px",
                   borderRadius: 999,
+                  fontFamily: "Space Grotesk",
                   fontSize: 26,
                   fontWeight: 700,
                   background: i === 0 ? BRAND.brand : BRAND.ink2,
