@@ -6,6 +6,23 @@ Built with Next.js 16 (App Router), TypeScript, Tailwind CSS 4, Firebase (Auth +
 
 Built by [David Asaolu](https://www.linkedin.com/in/david-asaolu234/).
 
+## Set up Firebase
+
+1. In the [Firebase console](https://console.firebase.google.com) create a project, then add a **Web app** (Project settings → Your apps → `</>`).
+2. **Authentication** → Get started → Sign-in method → enable **Google**.
+3. **Firestore Database** → Create database (production mode, pick a region).
+4. Open `.env.local` (copied from `.env.example`) and paste the six `NEXT_PUBLIC_FIREBASE_*` values from the web app's config.
+5. Deploy the security rules (once):
+
+   ```bash
+   firebase login
+   firebase use --add        # pick your project
+   firebase deploy --only firestore:rules
+   ```
+
+   Or paste `firestore.rules` into Firestore → Rules in the console.
+6. When you deploy the site, add its domain under Authentication → Settings → Authorized domains (`localhost` is allowed by default).
+
 ## Run it
 
 ```bash
@@ -13,17 +30,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Without Firebase config the app runs in **demo mode**: sign-in creates a local demo student and all data stays in the browser's localStorage. Everything else (including real AI generation with a real key) works the same.
-
-## Connect Firebase
-
-1. Create a Firebase project, add a **Web app**, and enable **Authentication → Sign-in method → Google**.
-2. Create a **Firestore** database.
-3. Copy `.env.example` to `.env.local` and fill in the `NEXT_PUBLIC_FIREBASE_*` values from the web app config.
-4. Deploy the security rules in [`firestore.rules`](firestore.rules) (Firebase console → Firestore → Rules, or `firebase deploy --only firestore:rules`).
-5. Add your production domain under Authentication → Settings → Authorized domains.
-
-Restart `npm run dev` — demo mode switches off automatically once the config is present.
+Open http://localhost:3000. If the Firebase values are missing, the sign-in page says so and the button is disabled.
 
 All reads and writes go through [`lib/firebase-actions.ts`](lib/firebase-actions.ts); [`lib/firebase.ts`](lib/firebase.ts) initialises the SDK.
 

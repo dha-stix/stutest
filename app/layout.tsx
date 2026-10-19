@@ -17,7 +17,7 @@ export const viewport: Viewport = { themeColor: "#0d0f1a" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${figtree.variable} ${bricolage.variable} ${jetbrains.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${figtree.variable} ${bricolage.variable} ${jetbrains.variable}`}>
       <body className="min-h-dvh">
         <AuthProvider>{children}</AuthProvider>
       </body>

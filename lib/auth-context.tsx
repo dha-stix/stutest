@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { isFirebaseConfigured } from "./firebase";
 import { getUserSettings, onAuthChange } from "./firebase-actions";
 import type { AppUser, UserSettings } from "./types";
 
@@ -18,17 +19,17 @@ const AuthContext = createContext<AuthState | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [settings, setSettings] = useState<UserSettings | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Without Firebase config nobody can be signed in, so there is nothing to wait for.
+  const [loading, setLoading] = useState(isFirebaseConfigured);
 
-  useEffect(
-    () =>
-      onAuthChange(async (next) => {
-        setUser(next);
-        setSettings(next ? await getUserSettings(next.uid).catch(() => null) : null);
-        setLoading(false);
-      }),
-    [],
-  );
+  useEffect(() => {
+    if (!isFirebaseConfigured) return;
+    return onAuthChange(async (next) => {
+      setUser(next);
+      setSettings(next ? await getUserSettings(next.uid).catch(() => null) : null);
+      setLoading(false);
+    });
+  }, []);
 
   const refreshSettings = useCallback(async () => {
     if (user) setSettings(await getUserSettings(user.uid));

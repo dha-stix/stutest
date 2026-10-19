@@ -29,8 +29,11 @@ service cloud.firestore {
       }
 
       match /chats/{chatId} {
-        allow read, delete: if ownsExisting();
-        allow create, update: if ownsNew();
+        // A pack's chat doc doesn't exist until the first message, so reading or
+        // deleting a missing one must be allowed (it reveals nothing).
+        allow read, delete: if resource == null || ownsExisting();
+        allow create: if ownsNew();
+        allow update: if ownsExisting() && ownsNew();
       }
     }
   }
