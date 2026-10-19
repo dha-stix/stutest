@@ -19,11 +19,11 @@ service cloud.firestore {
     }
 
     match /packs/{packId} {
+      // Packs are written once and never edited, so an ID that is already in use
+      // (by anyone) can't be overwritten; the app retries with a new ID instead.
       allow create: if ownsNew();
-      // resource == null: lets the app check a new pack ID is free (reveals nothing).
-      allow read: if resource == null || ownsExisting();
-      allow delete: if ownsExisting();
-      allow update: if ownsExisting() && ownsNew();
+      allow read, delete: if ownsExisting();
+      allow update: if false;
 
       match /attempts/{attemptId} {
         allow create: if ownsNew();

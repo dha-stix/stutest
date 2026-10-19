@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle } from "lucide-react";
 import { motion, type PanInfo } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { shuffle } from "@/lib/study";
 import type { Flashcard, Pack } from "@/lib/types";
 import { MissingPack, StudyHeader } from "../app/StudyShell";
 import { DownloadButton } from "../packs/DownloadButton";
@@ -22,7 +23,6 @@ function loadMarks(packId: string): Record<string, Mark> {
   }
 }
 
-const shuffled = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5);
 
 export function Flashcards({ pack }: { pack: Pack }) {
   const decks = pack.flashcards?.decks ?? [];
@@ -95,7 +95,7 @@ export function Flashcards({ pack }: { pack: Pack }) {
         width="max-w-[1000px]"
         actions={
           <>
-            <Button variant="outline" size="sm" onClick={() => (setOrder(shuffled(deckCards)), setIndex(0), setFlipped(false))}>
+            <Button variant="outline" size="sm" onClick={() => (setOrder(shuffle(deckCards)), setIndex(0), setFlipped(false))}>
               <Shuffle size={16} /> Shuffle
             </Button>
             <DownloadButton pack={pack} mode="flashcards" label="Download" size="sm" />

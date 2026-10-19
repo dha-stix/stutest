@@ -12,7 +12,7 @@ Built by [David Asaolu](https://www.linkedin.com/in/david-asaolu234/).
 2. **Authentication** → Get started → Sign-in method → enable **Google**.
 3. **Firestore Database** → Create database (production mode, pick a region).
 4. Open `.env.local` (copied from `.env.example`) and paste the six `NEXT_PUBLIC_FIREBASE_*` values from the web app's config.
-5. Deploy the security rules (once):
+5. Deploy the security rules (once, and again whenever `firestore.rules` changes):
 
    ```bash
    firebase login
@@ -53,6 +53,14 @@ All reads and writes go through [`lib/firebase-actions.ts`](lib/firebase-actions
 - **Models** (server-side, in `lib/ai/providers.ts`): Claude uses `claude-opus-5-5` with server-side refusal fallback enabled; ChatGPT uses `gpt-5`; Grok uses `grok-4` via xAI's OpenAI-compatible API. Override with `CLAUDE_MODEL`, `OPENAI_MODEL`, `GROK_MODEL`.
 
 Students' keys are stored in their own Firestore document (owner-only rules) and sent to the AI provider only through the API routes when they generate or chat. If you prefer keys never to be readable by the client after saving, move them into a server-side store (e.g. Cloud Functions + Secret Manager) and have the API routes look them up with the Firebase Admin SDK.
+
+## Link previews and icons
+
+- Every page has its own title and description, plus a 1200×630 share image (`app/opengraph-image.tsx`, reused for X/Twitter). That format works on Facebook, LinkedIn, WhatsApp, X, Slack, Discord and iMessage.
+- Browser icons: `app/favicon.ico` (16/32/48), `app/icon.tsx` (32, 192, 512 and a maskable 512 for Android), `app/apple-icon.tsx` (iOS home screen). The web manifest is `app/manifest.ts`.
+- The share image and icons use Bricolage Grotesque (SIL Open Font License), bundled in `assets/fonts`.
+- **Set `NEXT_PUBLIC_SITE_URL`** to your real domain when you deploy. Social platforms can't reach `localhost`, so previews only work from a public URL. Check them with each platform's debugger (Facebook Sharing Debugger, LinkedIn Post Inspector).
+- Signed-in pages (dashboard, packs, create, settings) are marked `noindex`. They stay crawlable in `robots.txt` so a shared link still gets a preview.
 
 ## Project structure
 

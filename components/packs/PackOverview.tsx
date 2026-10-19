@@ -13,6 +13,7 @@ import type { Attempt, Pack } from "@/lib/types";
 import { usePack } from "@/lib/use-pack";
 import { MissingPack } from "../app/StudyShell";
 import { Button, ButtonLink } from "../ui/Button";
+import { Notice } from "../ui/Notice";
 import { PageLoader } from "../ui/Spinner";
 import { DownloadButton } from "./DownloadButton";
 
@@ -106,6 +107,7 @@ export function PackOverview() {
   const { pack, status } = usePack();
   const [attempts, setAttempts] = useState<Attempt[] | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
 
   useEffect(() => {
     if (pack && user) listAttempts(pack.id, user.uid).then(setAttempts, () => setAttempts([]));
@@ -188,6 +190,11 @@ export function PackOverview() {
         )}
       </div>
 
+      {deleteError && (
+        <Notice tone="error" className="mt-10">
+          We couldn&apos;t delete this pack. Check your connection and try again.
+        </Notice>
+      )}
       <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-6">
         {confirmDelete ? (
           <>
@@ -196,8 +203,12 @@ export function PackOverview() {
               size="sm"
               className="bg-danger hover:bg-danger-ink"
               onClick={async () => {
-                await deletePack(pack.id, user!.uid);
-                router.replace("/packs");
+                try {
+                  await deletePack(pack.id, user!.uid);
+                  router.replace("/packs");
+                } catch {
+                  setDeleteError(true);
+                }
               }}
             >
               Delete pack

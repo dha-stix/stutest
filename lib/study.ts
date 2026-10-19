@@ -1,5 +1,15 @@
 import type { FillGapItem, MCQuestion } from "./types";
 
+/** Fisher–Yates shuffle (unbiased, unlike sorting by Math.random()). */
+export function shuffle<T>(items: T[]): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 export const chunk = <T,>(items: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(items.length / size) }, (_, i) => items.slice(i * size, i * size + size));
 

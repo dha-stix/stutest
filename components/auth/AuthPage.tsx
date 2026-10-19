@@ -45,7 +45,11 @@ export function AuthPage({ mode, aside }: AuthPageProps) {
             </Link>
           </p>
           <p className="mt-12 text-center text-[13px] leading-normal text-faint">
-            By continuing you agree to Stutest&apos;s Terms and Privacy Policy.
+            By continuing you agree to how Stutest handles your data, described in the{" "}
+            <Link href="/privacy" className="underline underline-offset-2 hover:text-ink">
+              privacy page
+            </Link>
+            .
           </p>
         </div>
       </main>

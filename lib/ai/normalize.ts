@@ -1,3 +1,4 @@
+import { shuffle } from "../study";
 import type { FillGapItem, Flashcard, GeneratedMode, KeypointTopic, MCQuestion } from "../types";
 
 /*
@@ -23,15 +24,6 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 
 /** Comparison key: lowercase letters and digits only. */
 export const fingerprint = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-
-function shuffle<T>(items: T[]): T[] {
-  const out = [...items];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
 
 const OPTION_PREFIX = /^\(?[A-Ha-h1-8][).:]\s+/;
 const BANNED_OPTION = /\b(all|none|both) of the (above|options)\b|\bboth [a-d] and [a-d]\b/i;

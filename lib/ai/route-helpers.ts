@@ -32,10 +32,22 @@ export function readCredentials(body: Record<string, unknown>): Credentials | Ne
   return { provider, apiKey };
 }
 
+/** Largest request body accepted (a 10,000-word document plus chat history fits easily). */
+const MAX_BODY_BYTES = 400_000;
+
+/**
+ * Parses the JSON body after two cheap guards: browsers must call from this site
+ * (stops other websites from using the API through a visitor's browser), and the
+ * body must be a reasonable size.
+ */
 export async function readJson(request: Request): Promise<Record<string, unknown> | null> {
+  const origin = request.headers.get("origin");
+  if (origin && origin !== new URL(request.url).origin) return null;
   try {
-    const body = await request.json();
-    return body && typeof body === "object" ? body : null;
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_BYTES) return null;
+    const body = JSON.parse(raw);
+    return body && typeof body === "object" && !Array.isArray(body) ? body : null;
   } catch {
     return null;
   }

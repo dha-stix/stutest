@@ -10,8 +10,14 @@ import { removeUserSettings, saveUserSettings } from "@/lib/firebase-actions";
 import type { Provider } from "@/lib/types";
 import { CheckBadge, LockIcon } from "../svg/AnimatedIcons";
 import { Button, ButtonLink } from "../ui/Button";
+import { Notice } from "../ui/Notice";
 
-type Status = { state: "idle" } | { state: "checking" } | { state: "valid" } | { state: "invalid"; message: string };
+type Status =
+  | { state: "idle" }
+  | { state: "checking" }
+  | { state: "valid" }
+  | { state: "invalid"; message: string }
+  | { state: "saveFailed"; message: string };
 
 export function ApiKeyForm() {
   const { user, settings, setSettings } = useAuth();
@@ -31,23 +37,33 @@ export function ApiKeyForm() {
     setStatus({ state: "checking" });
     try {
       await verifyApiKey({ provider, apiKey });
-      setSettings(await saveUserSettings(user.uid, { provider, apiKey }));
-      setKey("");
-      setStatus({ state: "valid" });
     } catch (err) {
       const message =
         err instanceof ApiClientError && err.code !== "INVALID_KEY"
           ? err.message
           : `${info.name} rejected this key — it may be mistyped, expired or out of credit. Check the key, or connect a different provider.`;
       setStatus({ state: "invalid", message });
+      return;
+    }
+    // The key works; saving it is a separate step with its own error message.
+    try {
+      setSettings(await saveUserSettings(user.uid, { provider, apiKey }));
+      setKey("");
+      setStatus({ state: "valid" });
+    } catch {
+      setStatus({ state: "saveFailed", message: "Your key works, but we couldn't save it. Check your connection and try again." });
     }
   }
 
   async function removeKey() {
     if (!user) return;
-    await removeUserSettings(user.uid);
-    setSettings(null);
-    setStatus({ state: "idle" });
+    try {
+      await removeUserSettings(user.uid);
+      setSettings(null);
+      setStatus({ state: "idle" });
+    } catch {
+      setStatus({ state: "saveFailed", message: "We couldn't remove your key. Check your connection and try again." });
+    }
   }
 
   return (
@@ -147,6 +163,12 @@ export function ApiKeyForm() {
           .
         </p>
       </form>
+
+      {status.state === "saveFailed" && (
+        <Notice tone="error" className="mt-7">
+          {status.message}
+        </Notice>
+      )}
 
       {status.state === "valid" && (
         <div className="st-pop mt-7 flex flex-wrap items-center justify-between gap-4 rounded-[20px] border border-[#a7dec4] bg-success-soft p-6" role="status">

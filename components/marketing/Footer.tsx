@@ -25,8 +25,7 @@ const COLUMNS = [
     links: [
       { label: "About", href: "/#how" },
       { label: "Contact", href: AUTHOR_URL },
-      { label: "Privacy policy", href: "/#faq" },
-      { label: "Terms of use", href: "/#faq" },
+      { label: "Privacy", href: "/privacy" },
     ],
   },
 ];

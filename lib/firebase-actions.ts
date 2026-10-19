@@ -98,24 +98,27 @@ export function packIdFor(title: string): string {
   return `${slugify(title)}-${suffix}`;
 }
 
-/** An ID is free if no pack exists there; another user's pack can't be read, which also means "taken". */
-async function isPackIdFree(id: string): Promise<boolean> {
-  try {
-    return !(await getDoc(doc(firestore(), "packs", id))).exists();
-  } catch {
-    return false;
-  }
-}
+const isPermissionDenied = (err: unknown) => (err as { code?: string }).code === "permission-denied";
 
+/**
+ * Saves a new pack under a readable ID. The write itself is the availability check:
+ * the rules only allow *creating* packs (never overwriting them), so if the ID is
+ * already used the write is denied and we try another suffix. With 36^4 suffixes per
+ * title a clash is extremely rare.
+ */
 export async function createPack(uid: string, pack: NewPack): Promise<string> {
+  const data = clean({ ...pack, uid, createdAt: Date.now() });
   for (let attempt = 0; attempt < 5; attempt++) {
     const id = packIdFor(pack.title);
-    if (!(await isPackIdFree(id))) continue;
-    await setDoc(doc(firestore(), "packs", id), clean({ ...pack, uid, createdAt: Date.now() }));
-    return id;
+    try {
+      await setDoc(doc(firestore(), "packs", id), data);
+      return id;
+    } catch (err) {
+      if (!isPermissionDenied(err)) throw err;
+    }
   }
-  // Practically unreachable (5 collisions in a row); fall back to an auto ID.
-  const ref = await addDoc(collection(firestore(), "packs"), clean({ ...pack, uid, createdAt: Date.now() }));
+  // Practically unreachable; fall back to an auto ID rather than failing.
+  const ref = await addDoc(collection(firestore(), "packs"), data);
   return ref.id;
 }
 

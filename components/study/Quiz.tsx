@@ -74,6 +74,7 @@ function QuizRunner({ pack, sectionIndex, missedOnly, setup }: { pack: Pack; sec
   });
   const [confirming, setConfirming] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
   const q = questions[state.index];
   const answered = state.answers.filter((a) => a !== null).length;
@@ -92,30 +93,36 @@ function QuizRunner({ pack, sectionIndex, missedOnly, setup }: { pack: Pack; sec
     setSubmitting(true);
     const score = questions.reduce((n, question, i) => n + (state.answers[i] === question.answerIndex ? 1 : 0), 0);
     const durationSec = limit - state.secondsLeft;
-    await saveAttempt(user.uid, {
-      packId: pack.id,
-      mode: "mcq",
-      section: sectionIndex,
-      answers: state.answers,
-      questionIds,
-      score,
-      total: questions.length,
-      durationSec,
-    });
+    try {
+      await saveAttempt(user.uid, {
+        packId: pack.id,
+        mode: "mcq",
+        section: sectionIndex,
+        answers: state.answers,
+        questionIds,
+        score,
+        total: questions.length,
+        durationSec,
+      });
+    } catch {
+      setSubmitting(false);
+      setSaveError(true);
+      return;
+    }
     clearQuizProgress(pack.id, sectionIndex, missedOnly);
     router.push(`/packs/${pack.id}/results/${sectionIndex}`);
   }, [user, submitting, questions, state.answers, state.secondsLeft, limit, pack.id, sectionIndex, questionIds, missedOnly, router]);
 
   // Countdown; submit automatically when time runs out.
   useEffect(() => {
-    if (submitting) return;
+    if (submitting || saveError) return;
     const timeUp = state.secondsLeft <= 1;
     const t = setTimeout(
       () => (timeUp ? submit() : setState((s) => ({ ...s, secondsLeft: s.secondsLeft - 1 }))),
       state.secondsLeft <= 0 ? 0 : 1000,
     );
     return () => clearTimeout(t);
-  }, [state.secondsLeft, submitting, submit]);
+  }, [state.secondsLeft, submitting, saveError, submit]);
 
   useEffect(() => {
     if (!submitting) saveQuizProgress(pack.id, sectionIndex, state, missedOnly);
@@ -161,6 +168,14 @@ function QuizRunner({ pack, sectionIndex, missedOnly, setup }: { pack: Pack; sec
       />
 
       <div className="mx-auto flex max-w-[1200px] flex-wrap items-start gap-6 px-4 py-8 sm:px-10">
+        {saveError && (
+          <div role="alert" className="flex w-full flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#f5c2bc] bg-danger-soft px-5 py-4 text-danger-ink">
+            <span className="font-semibold">We couldn&apos;t save your answers. Check your connection — your progress is kept on this device.</span>
+            <Button size="sm" onClick={() => (setSaveError(false), submit())}>
+              Try again
+            </Button>
+          </div>
+        )}
         <div className="min-w-0 flex-[999_1_520px]">
           <div key={q.id} className="st-slide rounded-[28px] border border-line bg-white p-[clamp(20px,4vw,40px)]">
             <div className="flex items-center justify-between gap-3 text-sm font-semibold text-muted">
